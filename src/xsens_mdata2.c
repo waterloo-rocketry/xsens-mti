@@ -214,27 +214,24 @@ void xsens_mdata2_decode_field( mdata2_packet_t *output, callback_event_t evt_cb
                 value.data.f4x9[7] = xsens_coalesce_32BE_F32LE( &output->payload[28] );
                 value.data.f4x9[8] = xsens_coalesce_32BE_F32LE( &output->payload[32] );
                 break;
-
+                
+            // For the remaining cases (except default) using type casting, as coalesce is just copying over the raw bytes over to the value data and therefore not violating strict aliasing
             case XSENS_EVT_TYPE_1632FP:
-                // type cast the 64 bit fp1632 pointer to a 8 bit pointer to transfer the data
-                xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632, &output->payload[0] ); // type casted in order to transfer the data over
+                xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632, &output->payload[0] );
                 break;
 
             case XSENS_EVT_TYPE_1632FP2:
-                // type cast the 64 bit int pointer to a 8 bit unsigned int pointer to transfer the data
                 xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x2[0], &output->payload[0] );
                 xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x2[1], &output->payload[6] );
                 break;
 
             case XSENS_EVT_TYPE_1632FP3:
-                // type cast the 64 bit int pointer to a 8 bit unsigned int pointer to transfer the data
                 xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x3[0], &output->payload[0] );
                 xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x3[1], &output->payload[6] );
                 xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x3[2], &output->payload[12] );
                 break;
 
             case XSENS_EVT_TYPE_1632FP4:
-                // type cast the 64 bit int pointer to a 8 bit unsigned int pointer to transfer the data
                 xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x4[0], &output->payload[0] );
                 xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x4[1], &output->payload[6] );
                 xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x4[2], &output->payload[12] );
@@ -242,7 +239,6 @@ void xsens_mdata2_decode_field( mdata2_packet_t *output, callback_event_t evt_cb
                 break;
 
             case XSENS_EVT_TYPE_1632FP9:
-                // type cast the 64 bit int pointer to a 8 bit unsigned int pointer to transfer the data
                 xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x9[0], &output->payload[0] );
                 xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x9[1], &output->payload[6] );
                 xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x9[2], &output->payload[12] );
@@ -255,25 +251,21 @@ void xsens_mdata2_decode_field( mdata2_packet_t *output, callback_event_t evt_cb
                 break;
 
             case XSENS_EVT_TYPE_DOUBLE:
-                // type cast the double (64 bit) pointer to a 8 bit unsigned int pointer to transfer the data
                 xsens_swap_endian_u64( (uint8_t*) &value.data.f8, &output->payload[0] );
                 break;
 
             case XSENS_EVT_TYPE_DOUBLE2:
-                // type cast the double (64 bit) pointer to a 8 bit unsigned int pointer to transfer the data
                 xsens_swap_endian_u64( (uint8_t*) &value.data.f8x2[0], &output->payload[0] );
                 xsens_swap_endian_u64( (uint8_t*) &value.data.f8x2[1], &output->payload[8] );
                 break;
 
             case XSENS_EVT_TYPE_DOUBLE3:
-                // type cast the double (64 bit) pointer to a 8 bit unsigned int pointer to transfer the data
                 xsens_swap_endian_u64( (uint8_t*) &value.data.f8x3[0], &output->payload[0] );
                 xsens_swap_endian_u64( (uint8_t*) &value.data.f8x3[1], &output->payload[8] );
                 xsens_swap_endian_u64( (uint8_t*) &value.data.f8x3[2], &output->payload[16] );
                 break;
 
             case XSENS_EVT_TYPE_DOUBLE4:
-                // type cast the double (64 bit) pointer to a 8 bit unsigned int pointer to transfer the data
                 xsens_swap_endian_u64( (uint8_t*) &value.data.f8x4[0], &output->payload[0] );
                 xsens_swap_endian_u64( (uint8_t*) &value.data.f8x4[1], &output->payload[8] );
                 xsens_swap_endian_u64( (uint8_t*) &value.data.f8x4[2], &output->payload[16] );
@@ -281,7 +273,6 @@ void xsens_mdata2_decode_field( mdata2_packet_t *output, callback_event_t evt_cb
                 break;
 
             case XSENS_EVT_TYPE_DOUBLE9:
-                // type cast the double (64 bit) pointer to a 8 bit unsigned int pointer to transfer the data
                 xsens_swap_endian_u64( (uint8_t*) &value.data.f8x9[0], &output->payload[0] );
                 xsens_swap_endian_u64( (uint8_t*) &value.data.f8x9[1], &output->payload[8] );
                 xsens_swap_endian_u64( (uint8_t*) &value.data.f8x9[2], &output->payload[16] );
