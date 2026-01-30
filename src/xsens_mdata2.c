@@ -214,73 +214,74 @@ void xsens_mdata2_decode_field( mdata2_packet_t *output, callback_event_t evt_cb
                 value.data.f4x9[7] = xsens_coalesce_32BE_F32LE( &output->payload[28] );
                 value.data.f4x9[8] = xsens_coalesce_32BE_F32LE( &output->payload[32] );
                 break;
-
+                
+            // For the remaining cases (except default) using type casting, as coalesce is just copying over the raw bytes over to the value data and therefore not violating strict aliasing
             case XSENS_EVT_TYPE_1632FP:
-                xsens_coalesce_48BE_48LE( &value.data.fp1632, &output->payload[0] );
+                xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632, &output->payload[0] );
                 break;
 
             case XSENS_EVT_TYPE_1632FP2:
-                xsens_coalesce_48BE_48LE( &value.data.fp1632x2[0], &output->payload[0] );
-                xsens_coalesce_48BE_48LE( &value.data.fp1632x2[1], &output->payload[6] );
+                xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x2[0], &output->payload[0] );
+                xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x2[1], &output->payload[6] );
                 break;
 
             case XSENS_EVT_TYPE_1632FP3:
-                xsens_coalesce_48BE_48LE( &value.data.fp1632x3[0], &output->payload[0] );
-                xsens_coalesce_48BE_48LE( &value.data.fp1632x3[1], &output->payload[6] );
-                xsens_coalesce_48BE_48LE( &value.data.fp1632x3[2], &output->payload[12] );
+                xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x3[0], &output->payload[0] );
+                xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x3[1], &output->payload[6] );
+                xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x3[2], &output->payload[12] );
                 break;
 
             case XSENS_EVT_TYPE_1632FP4:
-                xsens_coalesce_48BE_48LE( &value.data.fp1632x4[0], &output->payload[0] );
-                xsens_coalesce_48BE_48LE( &value.data.fp1632x4[1], &output->payload[6] );
-                xsens_coalesce_48BE_48LE( &value.data.fp1632x4[2], &output->payload[12] );
-                xsens_coalesce_48BE_48LE( &value.data.fp1632x4[3], &output->payload[18] );
+                xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x4[0], &output->payload[0] );
+                xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x4[1], &output->payload[6] );
+                xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x4[2], &output->payload[12] );
+                xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x4[3], &output->payload[18] );
                 break;
 
             case XSENS_EVT_TYPE_1632FP9:
-                xsens_coalesce_48BE_48LE( &value.data.fp1632x9[0], &output->payload[0] );
-                xsens_coalesce_48BE_48LE( &value.data.fp1632x9[1], &output->payload[6] );
-                xsens_coalesce_48BE_48LE( &value.data.fp1632x9[2], &output->payload[12] );
-                xsens_coalesce_48BE_48LE( &value.data.fp1632x9[3], &output->payload[18] );
-                xsens_coalesce_48BE_48LE( &value.data.fp1632x9[4], &output->payload[24] );
-                xsens_coalesce_48BE_48LE( &value.data.fp1632x9[5], &output->payload[30] );
-                xsens_coalesce_48BE_48LE( &value.data.fp1632x9[6], &output->payload[36] );
-                xsens_coalesce_48BE_48LE( &value.data.fp1632x9[7], &output->payload[42] );
-                xsens_coalesce_48BE_48LE( &value.data.fp1632x9[8], &output->payload[48] );
+                xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x9[0], &output->payload[0] );
+                xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x9[1], &output->payload[6] );
+                xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x9[2], &output->payload[12] );
+                xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x9[3], &output->payload[18] );
+                xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x9[4], &output->payload[24] );
+                xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x9[5], &output->payload[30] );
+                xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x9[6], &output->payload[36] );
+                xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x9[7], &output->payload[42] );
+                xsens_coalesce_48BE_48LE( (uint8_t*) &value.data.fp1632x9[8], &output->payload[48] );
                 break;
 
             case XSENS_EVT_TYPE_DOUBLE:
-                xsens_swap_endian_u64( &value.data.f8, &output->payload[0] );
+                xsens_swap_endian_u64( (uint8_t*) &value.data.f8, &output->payload[0] );
                 break;
 
             case XSENS_EVT_TYPE_DOUBLE2:
-                xsens_swap_endian_u64( &value.data.f8x2[0], &output->payload[0] );
-                xsens_swap_endian_u64( &value.data.f8x2[1], &output->payload[8] );
+                xsens_swap_endian_u64( (uint8_t*) &value.data.f8x2[0], &output->payload[0] );
+                xsens_swap_endian_u64( (uint8_t*) &value.data.f8x2[1], &output->payload[8] );
                 break;
 
             case XSENS_EVT_TYPE_DOUBLE3:
-                xsens_swap_endian_u64( &value.data.f8x3[0], &output->payload[0] );
-                xsens_swap_endian_u64( &value.data.f8x3[1], &output->payload[8] );
-                xsens_swap_endian_u64( &value.data.f8x3[2], &output->payload[16] );
+                xsens_swap_endian_u64( (uint8_t*) &value.data.f8x3[0], &output->payload[0] );
+                xsens_swap_endian_u64( (uint8_t*) &value.data.f8x3[1], &output->payload[8] );
+                xsens_swap_endian_u64( (uint8_t*) &value.data.f8x3[2], &output->payload[16] );
                 break;
 
             case XSENS_EVT_TYPE_DOUBLE4:
-                xsens_swap_endian_u64( &value.data.f8x4[0], &output->payload[0] );
-                xsens_swap_endian_u64( &value.data.f8x4[1], &output->payload[8] );
-                xsens_swap_endian_u64( &value.data.f8x4[2], &output->payload[16] );
-                xsens_swap_endian_u64( &value.data.f8x4[3], &output->payload[24] );
+                xsens_swap_endian_u64( (uint8_t*) &value.data.f8x4[0], &output->payload[0] );
+                xsens_swap_endian_u64( (uint8_t*) &value.data.f8x4[1], &output->payload[8] );
+                xsens_swap_endian_u64( (uint8_t*) &value.data.f8x4[2], &output->payload[16] );
+                xsens_swap_endian_u64( (uint8_t*) &value.data.f8x4[3], &output->payload[24] );
                 break;
 
             case XSENS_EVT_TYPE_DOUBLE9:
-                xsens_swap_endian_u64( &value.data.f8x9[0], &output->payload[0] );
-                xsens_swap_endian_u64( &value.data.f8x9[1], &output->payload[8] );
-                xsens_swap_endian_u64( &value.data.f8x9[2], &output->payload[16] );
-                xsens_swap_endian_u64( &value.data.f8x9[3], &output->payload[24] );
-                xsens_swap_endian_u64( &value.data.f8x9[4], &output->payload[32] );
-                xsens_swap_endian_u64( &value.data.f8x9[5], &output->payload[40] );
-                xsens_swap_endian_u64( &value.data.f8x9[6], &output->payload[48] );
-                xsens_swap_endian_u64( &value.data.f8x9[7], &output->payload[56] );
-                xsens_swap_endian_u64( &value.data.f8x9[8], &output->payload[64] );
+                xsens_swap_endian_u64( (uint8_t*) &value.data.f8x9[0], &output->payload[0] );
+                xsens_swap_endian_u64( (uint8_t*) &value.data.f8x9[1], &output->payload[8] );
+                xsens_swap_endian_u64( (uint8_t*) &value.data.f8x9[2], &output->payload[16] );
+                xsens_swap_endian_u64( (uint8_t*) &value.data.f8x9[3], &output->payload[24] );
+                xsens_swap_endian_u64( (uint8_t*) &value.data.f8x9[4], &output->payload[32] );
+                xsens_swap_endian_u64( (uint8_t*) &value.data.f8x9[5], &output->payload[40] );
+                xsens_swap_endian_u64( (uint8_t*) &value.data.f8x9[6], &output->payload[48] );
+                xsens_swap_endian_u64( (uint8_t*) &value.data.f8x9[7], &output->payload[56] );
+                xsens_swap_endian_u64( (uint8_t*) &value.data.f8x9[8], &output->payload[64] );
                 break;
 
             default:
